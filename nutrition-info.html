@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>الأكل الصحي وغير الصحي — صحّتي</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2FA35A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   صحّتي — نظام التصميم الأساسي (ثيم فاتح: أخضر + أبيض + طبيعة متحركة)
+   ========================================================================== */
+
+:root {
+  --bg: #FFFFFF;
+  --surface: #F2F9F2;
+  --surface-2: #E3F3E4;
+
+  --text: #16281B;
+  --text-soft: #5E7A63;
+
+  --primary: #2FA35A;
+  --primary-dark: #237F45;
+  --on-primary: #FFFFFF;
+
+  --accent: #E08B2E;
+  --danger: #D65A45;
+  --line: #DCEDDC;
+
+  --shadow: 0 10px 28px rgba(22, 40, 27, 0.10);
+
+  --gap-xs: 6px;
+  --gap-sm: 12px;
+  --gap-md: 20px;
+  --gap-lg: 32px;
+  --gap-xl: 48px;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --font-display: 'Cairo', sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { direction: rtl; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 76px;
+}
+
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 var(--gap-sm) 0;
+  line-height: 1.3;
+}
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+
+p { margin: 0 0 var(--gap-sm) 0; color: var(--text-soft); }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+
+.screen {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+}
+.container { padding: var(--gap-md); }
+
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: var(--gap-sm);
+  width: 100%; padding: 15px var(--gap-md);
+  border-radius: var(--radius-md); border: none;
+  font-weight: 700; font-size: 16px; cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--primary); color: var(--on-primary); }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+.btn-outline:hover { border-color: var(--primary); }
+.btn-ghost { background: transparent; color: var(--text-soft); padding: 10px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.pill-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 20px; border-radius: var(--radius-pill);
+  font-weight: 700; font-size: 14px; cursor: pointer;
+  border: 1.5px solid var(--line); background: transparent; color: var(--text);
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.pill-btn.filled { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.pill-btn.surface { background: var(--surface); border-color: var(--line); }
+
+.field { margin-bottom: var(--gap-md); }
+.field label { display: block; font-size: 14px; font-weight: 600; color: var(--text-soft); margin-bottom: 6px; }
+.field input, .field select {
+  width: 100%; padding: 13px 14px;
+  border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text); outline: none;
+  transition: border-color 0.15s ease;
+}
+.field input::placeholder { color: var(--text-soft); opacity: 0.7; }
+.field input:focus, .field select:focus { border-color: var(--primary); }
+
+.hint { font-size: 13px; color: var(--text-soft); opacity: 0.9; margin-top: 4px; }
+.error-text { font-size: 13px; color: var(--danger); margin-top: 4px; display: none; }
+
+.badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 700; }
+.badge-success { background: rgba(47,163,90,0.12); color: var(--primary); }
+.badge-warn { background: rgba(224,139,46,0.14); color: var(--accent); }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--gap-md); background: var(--bg); border-bottom: 1px solid var(--line); color: var(--text);
+}
+.topbar h1 { color: var(--text); font-size: 20px; margin: 0; }
+
+.divider { display: flex; align-items: center; gap: var(--gap-sm); color: var(--text-soft); font-size: 13px; margin: var(--gap-md) 0; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+.bio-option {
+  display: flex; align-items: center; gap: var(--gap-sm);
+  padding: 16px; border: 1.5px solid var(--line); border-radius: var(--radius-md);
+  margin-bottom: var(--gap-sm); cursor: pointer; background: var(--surface);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.bio-option.selected { border-color: var(--primary); background: rgba(47,163,90,0.07); }
+.bio-option .icon {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.bio-option .icon svg { width: 22px; height: 22px; stroke: var(--text); }
+.bio-option .texts { flex: 1; }
+.bio-option .texts strong { display: block; font-size: 15px; color: var(--text); }
+.bio-option .texts span { font-size: 13px; color: var(--text-soft); }
+.bio-option.linked { border-color: var(--primary); background: rgba(47,163,90,0.07); }
+.bio-option .check {
+  width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+}
+.bio-option.linked .check { background: var(--primary); border-color: var(--primary); }
+.bio-option .check svg { width: 13px; height: 13px; stroke: var(--on-primary); display: none; }
+.bio-option.linked .check svg { display: block; }
+
+.toast {
+  position: fixed; bottom: 90px; right: 50%; transform: translateX(50%);
+  background: var(--text); color: var(--bg); padding: 12px 22px;
+  border-radius: var(--radius-md); font-size: 14px; box-shadow: var(--shadow);
+  opacity: 0; pointer-events: none; transition: opacity 0.25s ease, bottom 0.25s ease;
+  z-index: 200; max-width: 90%; text-align: center;
+}
+.toast.show { opacity: 1; bottom: 100px; }
+.toast.error { background: var(--danger); }
+.toast.success { background: var(--primary); }
+
+.spinner {
+  width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,0.4);
+  border-top-color: var(--bg); border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------------- الخلفية الطبيعية المتحركة (هيدر زخرفي) ---------------- */
+
+.nature-hero {
+  position: relative;
+  height: 168px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #E4F5E6 0%, #FFFFFF 100%);
+  border-radius: 0 0 28px 28px;
+}
+.nature-hero .hero-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.nature-hero .hero-content h1 { margin-bottom: 2px; }
+.nature-hero .hero-content p { margin: 0; font-size: 13px; }
+
+.nature-hero .waterfall {
+  position: absolute;
+  top: -10px; bottom: -10px;
+  width: 46px;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255,255,255,0.95) 0px, rgba(255,255,255,0.95) 8px,
+    rgba(178,224,192,0.55) 8px, rgba(178,224,192,0.55) 18px
+  );
+  background-size: 100% 36px;
+  opacity: 0.55;
+  animation: waterfall-fall 1.1s linear infinite;
+  z-index: 1;
+}
+.nature-hero .waterfall.left { left: 14%; transform: skewX(-4deg); }
+.nature-hero .waterfall.right { right: 18%; transform: skewX(4deg); }
+@keyframes waterfall-fall {
+  from { background-position-y: 0; }
+  to { background-position-y: 36px; }
+}
+
+.nature-hero .tree {
+  position: absolute;
+  bottom: -6px;
+  opacity: 0.4;
+  transform-origin: 50% 100%;
+  animation: tree-sway 5.5s ease-in-out infinite;
+  z-index: 2;
+}
+.nature-hero .tree svg { width: 56px; height: 74px; }
+.nature-hero .tree.t1 { left: 4%; animation-delay: 0s; }
+.nature-hero .tree.t2 { left: 22%; opacity: 0.28; transform: scale(0.75); animation-delay: 0.8s; }
+.nature-hero .tree.t3 { right: 4%; animation-delay: 0.4s; }
+.nature-hero .tree.t4 { right: 24%; opacity: 0.28; transform: scale(0.7); animation-delay: 1.2s; }
+@keyframes tree-sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+.nature-hero .tree.t2 { animation-name: tree-sway-small; }
+.nature-hero .tree.t4 { animation-name: tree-sway-small; }
+@keyframes tree-sway-small {
+  0%, 100% { transform: scale(0.75) rotate(-2deg); }
+  50% { transform: scale(0.75) rotate(2deg); }
+}
+
+.nature-hero .leaf {
+  position: absolute;
+  top: -20px;
+  width: 12px; height: 12px;
+  opacity: 0;
+  animation: leaf-fall 7s linear infinite;
+  z-index: 2;
+}
+.nature-hero .leaf svg { width: 100%; height: 100%; }
+.nature-hero .leaf.l1 { left: 30%; animation-delay: 0s; }
+.nature-hero .leaf.l2 { left: 55%; animation-delay: 2.3s; }
+.nature-hero .leaf.l3 { left: 70%; animation-delay: 4.6s; }
+@keyframes leaf-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.55; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(190px) rotate(220deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nature-hero .tree, .nature-hero .waterfall, .nature-hero .leaf {
+    animation: none !important;
+  }
+}
+
+.bottom-nav {
+  position: fixed; bottom:0; right:0; left:0; max-width:480px; margin:0 auto;
+  background: var(--bg); border-top: 1px solid var(--line);
+  display:flex; justify-content:space-around; padding: 10px 0 14px;
+}
+.bottom-nav a { display:flex; flex-direction:column; align-items:center; gap:4px; font-size:11px; color:var(--text-soft); font-weight:600; }
+.bottom-nav a.active { color: var(--primary); }
+.bottom-nav svg { width:22px; height:22px; }
+
+.article-hero { padding: var(--gap-lg) var(--gap-md) var(--gap-md); text-align:center; }
+.article-hero .tag { display:inline-block; background: var(--surface-2); color: var(--primary); font-size:12px; font-weight:700; padding:5px 14px; border-radius: var(--radius-pill); margin-bottom:10px; }
+.article-hero p { font-size:14px; max-width: 360px; margin: 8px auto 0; }
+
+.section-title { display:flex; align-items:center; gap:10px; margin: var(--gap-lg) 0 var(--gap-sm); }
+.section-title .dot { width:10px; height:10px; border-radius:50%; }
+.section-title.good .dot { background: var(--primary); }
+.section-title.bad .dot { background: var(--danger); }
+
+.food-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: var(--gap-lg); }
+.food-chip {
+  background: var(--surface); border:1px solid var(--line); border-radius: var(--radius-md);
+  padding: 12px; font-size:13px; display:flex; align-items:center; gap:8px;
+}
+.food-chip.good { border-color: rgba(47,163,90,0.35); }
+.food-chip.bad { border-color: rgba(214,90,69,0.35); }
+.food-chip .mark { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.food-chip.good .mark { background: var(--primary); }
+.food-chip.bad .mark { background: var(--danger); }
+
+.tip-box {
+  background: var(--surface-2); border-radius: var(--radius-md); padding: 14px;
+  font-size:13.5px; margin-bottom: var(--gap-lg); line-height:1.7;
+}
+.tip-box strong { color: var(--primary); }
+
+.plate-guide {
+  background: var(--surface); border:1px solid var(--line); border-radius: var(--radius-lg);
+  padding: var(--gap-md); margin-bottom: var(--gap-lg);
+}
+.plate-bar { display:flex; height:22px; border-radius: var(--radius-pill); overflow:hidden; margin: var(--gap-sm) 0; }
+.plate-bar span { display:flex; align-items:center; justify-content:center; font-size:10px; color:#fff; font-weight:700; }
+
+.cross-link { display:block; text-align:center; padding: 12px; border-radius: var(--radius-md); border:1.5px solid var(--line); font-weight:700; font-size:14px; margin-bottom: var(--gap-lg); }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <div class="topbar">
+    <a href="health.html" class="btn-ghost" style="padding:6px;">→ رجوع</a>
+    <h1>الأكل الصحي وغير الصحي</h1>
+    <span style="width:40px;"></span>
+  </div>
+
+  <div class="article-hero">
+    <span class="tag">محتوى توعوي</span>
+    <h2 style="margin-bottom:0;">وش تحط في طبقك؟</h2>
+    <p>مو كل الأكل نفس الشي — تعرّف على الفرق بين الخيارات اللي تدعم صحتك والخيارات اللي يُفضّل تقليلها.</p>
+  </div>
+
+  <div class="container">
+
+    <div class="section-title good"><span class="dot"></span><h3 style="margin:0;">أكل صحي — اعتمد عليه</h3></div>
+    <div class="food-grid">
+      <div class="food-chip good"><span class="mark"></span>خضروات طازجة</div>
+      <div class="food-chip good"><span class="mark"></span>فواكه طازجة</div>
+      <div class="food-chip good"><span class="mark"></span>بروتين خفيف (دجاج، سمك، بيض)</div>
+      <div class="food-chip good"><span class="mark"></span>بقوليات (عدس، حمّص)</div>
+      <div class="food-chip good"><span class="mark"></span>حبوب كاملة (شوفان، برغل)</div>
+      <div class="food-chip good"><span class="mark"></span>مكسرات نيّة غير مملّحة</div>
+      <div class="food-chip good"><span class="mark"></span>زيت زيتون</div>
+      <div class="food-chip good"><span class="mark"></span>ماء ومشروبات بدون سكر</div>
+    </div>
+
+    <div class="section-title bad"><span class="dot"></span><h3 style="margin:0;">قلّل منه قدر الإمكان</h3></div>
+    <div class="food-grid">
+      <div class="food-chip bad"><span class="mark"></span>مشروبات غازية وعصائر مُحلّاة</div>
+      <div class="food-chip bad"><span class="mark"></span>وجبات سريعة ومقالي</div>
+      <div class="food-chip bad"><span class="mark"></span>حلويات ومخبوزات صناعية</div>
+      <div class="food-chip bad"><span class="mark"></span>وجبات جاهزة عالية المعالجة</div>
+      <div class="food-chip bad"><span class="mark"></span>لحوم مصنّعة (نقانق، لانشون)</div>
+      <div class="food-chip bad"><span class="mark"></span>رقائق البطاطس المالحة</div>
+      <div class="food-chip bad"><span class="mark"></span>صلصات جاهزة عالية السكر/الملح</div>
+      <div class="food-chip bad"><span class="mark"></span>الإفراط في الملح المضاف</div>
+    </div>
+
+    <div class="section-title"><h3 style="margin:0;">دليل الطبق الصحي (تقريبي)</h3></div>
+    <div class="plate-guide">
+      <p style="margin-bottom:0;">فكرة عامة شائعة لتقسيم طبق الوجبة الرئيسية:</p>
+      <div class="plate-bar">
+        <span style="background:#2FA35A; width:50%;">خضروات 50٪</span>
+        <span style="background:#4C8557; width:25%;">بروتين 25٪</span>
+        <span style="background:#E08B2E; width:25%;">حبوب كاملة 25٪</span>
+      </div>
+      <p style="font-size:12px; margin:0;">هذي نسبة تقريبية للتوجيه العام فقط، وتختلف حسب حالة كل شخص ونشاطه.</p>
+    </div>
+
+    <div class="tip-box">
+      💡 <strong>نصيحة:</strong> الهدف مو الحرمان الكامل من أي أكل تحبه، بل "الأغلبية الصحية" — خليه العادة اليومية، واترك الأكل الأقل صحية لمناسبات قليلة بدل ما يكون روتين يومي.
+    </div>
+
+    <a href="exercises-info.html" class="cross-link">اقرأ أيضًا: تمارين المقاومة والكارديو ←</a>
+
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9"/></svg>الرئيسية</a>
+  <a href="workouts.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5M4 10l3-3 3 3-3 3-3-3ZM14 20l3-3 3 3-3 3-3-3Z"/></svg>التمارين</a>
+  <a href="health.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 4.4-8.8 10-8.8 10s-8.8-5.6-8.8-10a4.8 4.8 0 0 1 8.8-2.7 4.8 4.8 0 0 1 8.8 2.7Z"/></svg>الصحة</a>
+  <a href="progress.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>تقدّمي</a>
+  <a href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>حسابي</a>
+</nav>
+
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script>Auth.requireAuth();</script>
+</body>
+</html>

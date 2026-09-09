@@ -1,0 +1,17 @@
+{
+  "name": "صحّتي — اللياقة والتغذية والعادات الصحية",
+  "short_name": "صحّتي",
+  "description": "تطبيق صحة ولياقة يشمل التمارين، تتبع الماء والعادات، الوصفات، والمحتوى التوعوي",
+  "start_url": "welcome.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F3E8",
+  "theme_color": "#2F8F4E",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
